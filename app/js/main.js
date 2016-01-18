@@ -2,31 +2,30 @@
 
   'use strict';
 
-  require('angular');
   require('angular-route');
   require('angular-animate');
-  var mainCtrl = require('./controllers/mainctrl');
 
-  angular.module('SampleApp', ['ngRoute', 'ngAnimate'])
+  var app = angular.module('SampleApp', ['ngRoute', 'ngAnimate','ui.calendar','ui.bootstrap']);
 
-  .config([
-    '$locationProvider',
-    '$routeProvider',
-    function($locationProvider, $routeProvider) {
+  require('./services/events').inject(app);
+  require('./directives/modal').inject(app);
+
+  app.config(function ($locationProvider, $routeProvider) {
       $locationProvider.hashPrefix('!');
       // routes
       $routeProvider
-        .when("/", {
+        .when("/home", {
           templateUrl: "./partials/partial1.html",
-          controller: "MainController"
+          controller: require('./controllers/mainCtrl').inject(app)
+        })
+        .when("/contact", {
+          templateUrl: "./partials/partial2.html",
+          controller: require('./controllers/contactCtrl').inject(app)
         })
         .otherwise({
            redirectTo: '/'
         });
-    }
-  ])
-
-  //Load controller
-  .controller('MainController', ['$scope', mainCtrl]);
+    });
+  
 
 }());
