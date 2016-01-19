@@ -14,7 +14,7 @@
       $locationProvider.hashPrefix('!');
       // routes
       $routeProvider
-        .when("/home", {
+        .when("/", {
           templateUrl: "./partials/partial1.html",
           controller: require('./controllers/mainCtrl').inject(app)
         })
